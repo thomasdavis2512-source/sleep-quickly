@@ -304,7 +304,7 @@
               <div class="book-spine"></div>
               <div class="book-inner">
                 <div class="cover-slot">
-                  <img id="pdf-cover" alt="Capa do PDF" class="cover-image" />
+                  <img id="pdf-cover" src="./capa.png" alt="Capa do PDF" class="cover-image" />
                 </div>
               </div>
             </div>
@@ -746,8 +746,11 @@
       if (coverEl) {
         var exts = ['png', 'jpg', 'jpeg', 'webp'];
         (function load(i) {
-          if (i >= exts.length) return;
-          var candidate = 'file:///C:/Users/Vitor/Downloads/capa.' + exts[i];
+          if (i >= exts.length) {
+            coverEl.src = 'https://images.unsplash.com/photo-1545697433-1c3f4cfa4e1b?q=80&w=1200&auto=format&fit=crop';
+            return;
+          }
+          var candidate = './capa.' + exts[i];
           var test = new Image();
           test.onload = function () { coverEl.src = candidate; };
           test.onerror = function () { load(i + 1); };
