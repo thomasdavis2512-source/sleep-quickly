@@ -171,14 +171,22 @@
       position: absolute;
       inset: 20px;
       border-radius: 16px;
-      background: radial-gradient(800px circle at 50% 0%, rgba(48, 55, 85, 0.6), rgba(33, 39, 67, 0.6) 60%, rgba(23, 28, 47, 0.6) 100%),
-        linear-gradient(180deg, rgba(39, 46, 74, 0.6), rgba(24, 28, 46, 0.6));
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 28px;
+      padding: 0;
+    }
+
+    .cover-image {
+      width: auto;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 16px;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+        0 18px 30px -14px rgba(2, 6, 23, 0.55);
     }
 
     .book:hover .cover-slot {
@@ -296,21 +304,7 @@
               <div class="book-spine"></div>
               <div class="book-inner">
                 <div class="cover-slot">
-                  <div>
-                    <div
-                      class="mx-auto mb-7 w-14 h-14 rounded-full bg-white/5 text-indigo-300 flex items-center justify-center">
-                      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M12 3c.132 1.995.85 3.397 2.942 4.787C17.3 9.05 18 10.4 18 12a6 6 0 11-12 0c0-1.6.7-2.95 3.058-4.213C11.15 6.397 11.868 4.995 12 3z">
-                        </path>
-                      </svg>
-                    </div>
-                    <p class="text-2xl font-bold mb-1">Sono Profundo</p>
-                    <p class="text-sm text-gray-400 mb-6">O Guia Definitivo para Dormir Rápido e Acordar Renovado</p>
-                    <span
-                      class="inline-block px-4 py-2 rounded-xl bg-white/10 text-white text-xs font-semibold tracking-wide">PDF
-                      COMPLETO</span>
-                  </div>
+                  <img id="pdf-cover" alt="Capa do PDF" class="cover-image" />
                 </div>
               </div>
             </div>
@@ -453,11 +447,10 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-card rounded-3xl overflow-hidden flex flex-col md:flex-row items-center">
         <div
-          class="w-full md:w-1/3 bg-gray-800 h-64 md:h-full min-h-[300px] flex items-center justify-center text-gray-500">
-          <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
-            </path>
-          </svg>
+          class="w-full md:w-1/3 relative h-64 md:h-full min-h-[300px] overflow-hidden rounded-3xl md:rounded-l-3xl md:rounded-r-none">
+          <img src="https://images.unsplash.com/photo-1550831107-1553da8c8464?q=80&w=1200&auto=format&fit=crop"
+            alt="Médico especialista" class="absolute inset-0 w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-black/25"></div>
         </div>
         <div class="p-8 md:p-12 w-full md:w-2/3">
           <span class="text-indigo-400 font-bold uppercase tracking-wider text-sm">Especialista</span>
@@ -469,15 +462,15 @@
           </p>
           <div class="grid grid-cols-3 gap-4 border-t border-gray-800 pt-6">
             <div>
-              <p class="text-2xl font-bold"><span class="count" data-target="2000" data-prefix="+"></span></p>
+              <p class="text-2xl font-bold">253</p>
               <p class="text-xs text-gray-500 uppercase">Alunos</p>
             </div>
             <div>
-              <p class="text-2xl font-bold"><span class="count" data-target="12"></span></p>
+              <p class="text-2xl font-bold">26</p>
               <p class="text-xs text-gray-500 uppercase">Anos Exp.</p>
             </div>
             <div>
-              <p class="text-2xl font-bold"><span class="count" data-target="4.9" data-decimals="1"></span>/5</p>
+              <p class="text-2xl font-bold">4,8/5</p>
               <p class="text-xs text-gray-500 uppercase">Avaliação</p>
             </div>
           </div>
@@ -747,6 +740,19 @@
           s.style.animationDelay = delay + 's';
           starfield.appendChild(s);
         }
+      }
+
+      var coverEl = document.getElementById('pdf-cover');
+      if (coverEl) {
+        var exts = ['png', 'jpg', 'jpeg', 'webp'];
+        (function load(i) {
+          if (i >= exts.length) return;
+          var candidate = 'file:///C:/Users/Vitor/Downloads/capa.' + exts[i];
+          var test = new Image();
+          test.onload = function () { coverEl.src = candidate; };
+          test.onerror = function () { load(i + 1); };
+          test.src = candidate;
+        })(0);
       }
 
       function startCountUp() {
